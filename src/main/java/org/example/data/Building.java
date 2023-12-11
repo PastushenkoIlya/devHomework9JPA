@@ -7,7 +7,6 @@ import java.io.Serializable;
 public class Building implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OneToMany(mappedBy = "building")
     private long id;
     private String address;
     //setters and getters

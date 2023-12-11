@@ -36,25 +36,10 @@
       <version>3.5.13</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
-    <dependency>
-      <groupId>org.hibernate.orm</groupId>
-      <artifactId>hibernate-core</artifactId>
-      <version>6.3.1.Final</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
     <dependency>
       <groupId>org.hibernate</groupId>
-      <artifactId>hibernate-entitymanager</artifactId>
-      <version>4.1.7.Final</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.0-api -->
-    <dependency>
-      <groupId>org.hibernate.javax.persistence</groupId>
-      <artifactId>hibernate-jpa-2.0-api</artifactId>
-      <version>1.0.1.Final</version>
+      <artifactId>hibernate-core</artifactId>
+      <version>5.6.0.Final</version>
     </dependency>
   </dependencies>
 </project>

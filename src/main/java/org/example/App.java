@@ -19,25 +19,39 @@ public class App
 
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
-        Root<Resident> root = criteriaQuery.from(Resident.class);
+        Root<Flat> root = criteriaQuery.from(Flat.class);
+        //joins
+        Join<Flat, Building> buildingJoin = root.join("building");
+        Join<Flat, Resident> residentJoin = root.join("residents");
+        Join<Flat, MemberOSBB> ownersJoin = root.join("owners");
+        //subquery
+        Subquery<Integer> residentSubquery = criteriaQuery.subquery(Integer.class);
+        Root<Resident> residentRoot = residentSubquery.from(Resident.class);
+        residentSubquery.select(residentRoot.<Integer>get("id"));
 
-        Join<Resident, InhabitantsToFlats> inhabitantsToFlatsJoin = root.join("inhabitants_to_flats");
-        Join<InhabitantsToFlats, Flat> flatJoin = root.join("flats");
-        Join<Flat, Building> buildingJoin = root.join("buildings");
+        Predicate personIsResident = criteriaBuilder
+                .equal(ownersJoin.get("personId"), criteriaBuilder.any(residentSubquery));
 
-        Join<Resident, OwnersToFlats> ownersToFlatsJoin = root.join("owners_to_flats");
-        Join<OwnersToFlats, MemberOSBB> memberOSBBJoin = root.join("members_OSBB");
+        Predicate vehicleAccess = criteriaBuilder.isFalse(residentJoin.<Boolean>get("vehicleParkingAccess"));
+        Predicate hasLessThenTwoFlat = criteriaBuilder.le(criteriaBuilder.count(root), 1);
+        //Predicate isResident = criteriaBuilder.equal(ownersJoin.get("personId"), residentJoin.get("id"));
+
+        Predicate predicateAllClauses = criteriaBuilder.and(vehicleAccess,hasLessThenTwoFlat, personIsResident);
 
         criteriaQuery.multiselect(
-                root.get("name"),
-                root.get("surname"),
-                root.get("tel"),
-                root.get("email"),
-                root.get("vehicle_parking_access"),
+                residentJoin.get("name"),
+                residentJoin.get("surname"),
+                residentJoin.get("tel"),
+                residentJoin.get("email"),
+                residentJoin.get("vehicleParkingAccess"),
                 buildingJoin.get("id"),
                 buildingJoin.get("address"),
-                flatJoin.get("apartment_number"),
-                flatJoin.get("area"));
+                root.get("area"),
+                root.get("apartmentNumber")
+        ).where(predicateAllClauses); //.groupBy(ownersJoin.get("personId")).having(predicateAllClauses);
         System.out.println(entityManager.createQuery(criteriaQuery).getResultList());
     }
 }
+
+
+//.where(criteriaBuilder.isFalse(residentJoin.get("vehicleParkingAccess")))

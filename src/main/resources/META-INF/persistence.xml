@@ -7,20 +7,20 @@
 
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
+
         <class>org.example.data.Building</class>
         <class>org.example.data.Flat</class>
-        <class>org.example.data.InhabitantsToFlats</class>
+        <!--<class>org.example.data.InhabitantsToFlats</class>-->
         <class>org.example.data.MemberOSBB</class>
-        <class>org.example.data.OwnersToFlats</class>
+        <!--<class>org.example.data.OwnersToFlats</class>-->
         <class>org.example.data.Resident</class>
 
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost3306/osbb_example?characterEncoding=utf8"/>
-            <property name="javax.persistence.jdbc.user" value="root"/>
-            <property name="javax.persistence.jdbc.password" value="Yesyesyes3"/>
-            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.driver"/>
-
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/flywaycreated"/>
+            <property name="hibernate.connection.username" value="root"/>
+            <property name="hibernate.connection.password" value="Yesyesyes3"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
         </properties>

@@ -2,6 +2,8 @@ package org.example.data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "members_osbb")
@@ -10,8 +12,9 @@ public class MemberOSBB implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(name = "person_id")
-    @OneToOne(mappedBy = "ownerId")
     private int personId;
+    @ManyToMany(mappedBy = "owners")
+    private List<Flat> flats = new ArrayList<>();
     @Enumerated
     private Role role;
     //setters and getters

@@ -2,14 +2,14 @@ package org.example.data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "flats")
 public class Flat implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OneToOne(mappedBy = "flatId")
-
     private int id;
     @Column(name = "apartment_number")
     private int apartmentNumber;
@@ -17,10 +17,23 @@ public class Flat implements Serializable {
     private double area;
     @Column(name = "number_of_bedrooms")
     private byte numberOfBedrooms;
-    @Column(name = "building_id")
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "flats_ibfk_1")
+    @JoinColumn(name = "building_id")
     private Building building;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "inhabitants_to_flats",
+            joinColumns = { @JoinColumn (name = "flat_id")},
+            inverseJoinColumns = {@JoinColumn(name = "resident_id")}
+    )
+    private List<Resident> residents = new ArrayList<>();
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "owners_to_flats",
+            joinColumns = {@JoinColumn(name = "flat_id")},
+            inverseJoinColumns = {@JoinColumn(name = "owner_id")}
+    )
+    private List<MemberOSBB> owners = new ArrayList<>();
     //setters and getters
     public int getId() {
         return id;

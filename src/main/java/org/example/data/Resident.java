@@ -3,13 +3,14 @@ package org.example.data;
 import javax.persistence.*;
 import javax.persistence.criteria.Expression;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "residents")
 public class Resident implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @OneToOne(mappedBy = "residentId")
     private long id;
     private String name;
     private String surname;
@@ -18,7 +19,8 @@ public class Resident implements Serializable {
     @Column(name = "vehicle_parking_access")
     private boolean vehicleParkingAccess;
     //setters and getters
-
+    @ManyToMany(mappedBy = "residents")
+    private List<Flat> flats = new ArrayList<>();
     public long getId() {
         return id;
     }
