@@ -1,7 +1,7 @@
 package org.example.data;
 
-import javax.persistence.*;
-import javax.persistence.criteria.Expression;
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.Expression;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

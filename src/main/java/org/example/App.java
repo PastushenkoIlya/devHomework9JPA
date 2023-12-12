@@ -2,13 +2,13 @@ package org.example;
 
 import org.example.data.*;
 
-//import javax.persistence.*;
-//import javax.persistence.criteria.*;
+//import jakarta.persistence.*;
+//import jakarta.persistence.criteria.*;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.criteria.*;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.criteria.*;
 public class App
 {
     public static void main(String[] args) {
@@ -20,24 +20,17 @@ public class App
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
         Root<MemberOSBB> root = criteriaQuery.from(MemberOSBB.class);
+
         //joins
         Join<MemberOSBB, Flat> flatJoin = root.join("flats");
         Join<Flat, Building> buildingJoin = flatJoin.join("building");
         Join<Flat, Resident> residentJoin = flatJoin.join("residents");
-        //subquery
+
+        //subquery needed for operator 'any' to be used in 'isResident' predicate
         Subquery<Integer> residentSubquery = criteriaQuery.subquery(Integer.class);
         Root<Resident> residentRoot = residentSubquery.from(Resident.class);
         residentSubquery.select(residentRoot.<Integer>get("id"));
-/*
-        Predicate personIsResident = criteriaBuilder
-                .equal(ownersJoin.get("personId"), criteriaBuilder.any(residentSubquery));
 
-        Predicate vehicleAccess = criteriaBuilder.isFalse(residentJoin.<Boolean>get("vehicleParkingAccess"));
-        Predicate hasLessThenTwoFlat = criteriaBuilder.le(criteriaBuilder.count(root), 1);
-        //Predicate isResident = criteriaBuilder.equal(ownersJoin.get("personId"), residentJoin.get("id"));
-
-        Predicate predicateAllClauses = criteriaBuilder.and(vehicleAccess,hasLessThenTwoFlat, personIsResident);
-*/
         Predicate isResident = criteriaBuilder.equal(root.get("personId"), criteriaBuilder.any(residentSubquery));
         Predicate noParkingAccess = criteriaBuilder.isFalse(residentJoin.<Boolean>get("vehicleParkingAccess"));
 

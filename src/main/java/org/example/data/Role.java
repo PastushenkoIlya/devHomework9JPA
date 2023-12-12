@@ -1,7 +1,7 @@
 package org.example.data;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 public enum Role {
     @Enumerated(EnumType.STRING)
