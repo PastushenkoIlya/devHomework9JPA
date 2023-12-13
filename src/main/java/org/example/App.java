@@ -50,15 +50,9 @@ public class App
                         buildingJoin.get("address"),
                         flatJoin.get("apartmentNumber"),
                         flatJoin.get("area")
-                        //criteriaBuilder.count(flatJoin.get("owners"))
                 )
                 .where(predicateForWhere)
-                .groupBy(
-                        root
-                )
-                        /*residentJoin.get("name"),
-                        residentJoin.get("surname"),
-                        residentJoin.get("email"))*/
+                .groupBy(root)
                 .having(predicate);
         List<Tuple> results = entityManager.createQuery(criteriaQuery).getResultList();
         try (PrintWriter writer = new PrintWriter(new FileWriter("resultFile.txt"))) {
@@ -74,5 +68,16 @@ public class App
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //example of output to console as mentioned in task
+        /*
+        for (Tuple result : results) {
+            System.out.print("Name: " + result.get(0));
+            System.out.print(", Surname: " + result.get(1));
+            System.out.print(", Email: " + result.get(2));
+            System.out.print(", Building ID: " + result.get(3));
+            System.out.print(", Building Address: " + result.get(4));
+            System.out.print(", Apartment Number: " + result.get(5));
+            System.out.println(", Area: " + result.get(6));
+        }*/
     }
 }

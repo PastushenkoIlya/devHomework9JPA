@@ -2,7 +2,6 @@ package org.example.data;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.lang.reflect.Member;
 
 @Entity
 @Table(name = "owners_to_flats")
