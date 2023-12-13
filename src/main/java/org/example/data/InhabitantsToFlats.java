@@ -1,6 +1,6 @@
 package org.example.data;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.io.Serializable;
 @Entity
 @Table(name = "inhabitants_to_flats")

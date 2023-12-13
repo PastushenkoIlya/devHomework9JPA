@@ -40,7 +40,7 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>6.4.0.Final</version>
+      <version>5.6.15.Final</version>
     </dependency>
   </dependencies>
 </project>
